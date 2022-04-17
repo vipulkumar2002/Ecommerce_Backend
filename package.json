@@ -1,0 +1,11 @@
+{
+  "name": "ecommerce_backend",
+  "version": "1.0.0",
+  "description": "A backend service for ecommerce application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vipul Patel",
+  "license": "MIT"
+}
