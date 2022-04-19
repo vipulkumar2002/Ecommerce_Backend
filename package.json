@@ -4,8 +4,30 @@
   "description": "A backend service for ecommerce application",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "babel src --out-dir dist",
+    "dev": "nodemon --exec ./node_modules/.bin/babel-node src/index.js",
+    "start": "node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vipulkumar2002/ecommerce-backend.git"
   },
   "author": "Vipul Patel",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3"
+  },
+  "bugs": {
+    "url": "https://github.com/vipulkumar2002/ecommerce-backend/issues"
+  },
+  "homepage": "https://github.com/vipulkumar2002/ecommerce-backend#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.16.0",
+    "@babel/node": "^7.16.0",
+    "@babel/plugin-transform-runtime": "^7.16.4",
+    "@babel/preset-env": "^7.16.4",
+    "nodemon": "^2.0.15"
+  }
 }
