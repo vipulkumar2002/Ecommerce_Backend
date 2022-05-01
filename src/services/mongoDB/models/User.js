@@ -13,10 +13,15 @@ const UserSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     password: {
       type: String,
       required: true,
+    },
+    role: {
+      type: Number,
+      default: 0, // 0 for non prevelised & 1 for admin
     },
     addresses: [
       {
@@ -36,5 +41,4 @@ const UserSchema = new mongoose.Schema(
   }
 );
 
-const User = new mongoose.model("User", UserSchema);
-export default User;
+export const User = new mongoose.model("User", UserSchema);

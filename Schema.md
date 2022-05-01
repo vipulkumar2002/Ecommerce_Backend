@@ -6,9 +6,6 @@
   - lastName : String
   - email : String
   - password : String (Hashed)
-  - Address : [
-    - Address (from address schema)
-      ]
   - Orders :[
     {
     address : Address (from address schema)
