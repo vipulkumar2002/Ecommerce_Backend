@@ -19,6 +19,10 @@ const PORT = process.env.PORT || 8000;
 connectDB();
 
 // Route
+app.get("/", (req, res) => {
+  res.send(`Server is deployed at post : ${PORT}`);
+});
+
 app.use("/user", userRouter);
 app.listen(PORT, () => {
   console.log(`Server is listen at Port ${PORT}`);
