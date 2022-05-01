@@ -23,6 +23,10 @@ app.get("/", (req, res) => {
   res.send(`Server is deployed at post : ${PORT}`);
 });
 
+app.get("/getenvs", (req, res) => {
+  res.send(process.env);
+});
+
 app.use("/user", userRouter);
 app.listen(PORT, () => {
   console.log(`Server is listen at Port ${PORT}`);
