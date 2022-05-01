@@ -2,7 +2,8 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import { validationResult, body } from "express-validator";
 import { User } from "../services/mongoDB/models/User";
-import JWT from "jsonwebtoken";
+import { signJWT } from "../utils/index";
+
 const router = express.Router();
 
 /*
@@ -78,15 +79,15 @@ router.post(
   body("email").isEmail(),
   async (req, res) => {
     try {
-      // const { errors } = validationResult(req);
-      // if (errors.length > 0)
-      //   return res.json({
-      //     data: {
-      //       token: null,
-      //     },
-      //     success: false,
-      //     message: "validation failed",
-      //   });
+      const { errors } = validationResult(req);
+      if (errors.length > 0)
+        return res.json({
+          data: {
+            token: null,
+          },
+          success: false,
+          message: "validation failed",
+        });
 
       const { email, password } = req.body;
       const user = await User.findOne({ email });
@@ -107,27 +108,24 @@ router.post(
             token: null,
           },
           success: false,
-          message: "User not Varified",
+          message: "Invalid email or password",
         });
       }
 
       // verified user create JWT
-      const token = JWT.sign(
-        {
-          id: user._id,
-          email: user.email,
-          role: user.role,
-        },
-        process.env.SECRET_JWT,
-        { expiresIn: "24h" }
-      );
+      const token = signJWT({
+        id: user._id,
+        email: user.email,
+        role: user.role,
+      });
+
       await user.save();
       return res.json({
         data: {
           token,
         },
         success: true,
-        message: "User Loged in Successfully ",
+        message: "User Logged in Successfully ",
       });
     } catch (error) {
       res.json({
