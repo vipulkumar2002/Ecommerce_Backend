@@ -2,8 +2,7 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import { validationResult, body } from "express-validator";
 import { User } from "../services/mongoDB/models/User";
-import { signJWT } from "../utils/index";
-
+import { signJWT, verifyJWT } from "../utils/index";
 const router = express.Router();
 
 /*
@@ -17,9 +16,9 @@ description: Route to sign up a new user
 router.post(
   "/signup",
   //validation midleware
-  body("firstName").isLength({ min: 1 }),
-  body("lastName").isLength({ min: 1 }),
-  body("password").isLength({ min: 3 }),
+  body("firstName").isLength({ min: 3 }),
+  body("lastName").isLength({ min: 3 }),
+  body("password").isLength({ min: 4 }),
   body("email").isEmail(),
 
   async (req, res) => {
@@ -54,6 +53,7 @@ router.post(
         message: "User created Successfully ",
       });
     } catch (error) {
+      console.log(error);
       res.json({
         data: {
           user: null,
@@ -83,7 +83,7 @@ router.post(
       if (errors.length > 0)
         return res.json({
           data: {
-            token: null,
+            user: null,
           },
           success: false,
           message: "validation failed",
@@ -128,6 +128,7 @@ router.post(
         message: "User Logged in Successfully ",
       });
     } catch (error) {
+      console.log(error);
       res.json({
         data: {
           token: null,
@@ -138,5 +139,79 @@ router.post(
     }
   }
 );
+
+/*
+type : GET
+path : /user/all
+body : none
+query: none
+description: Route to get all user
+*/
+
+router.get("/all", async (req, res) => {
+  // !TODO make sure that only the admin can access this route
+
+  try {
+    const users = await User.find({}).select(
+      "firstName lastName email addresses orders"
+    );
+
+    return res.json({
+      data: {
+        users,
+      },
+      success: true,
+      message: "Users Feched Succesfully",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      data: {
+        users: [],
+      },
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
+/*
+type : GET
+path : /user/profile/me
+body : none
+query: none
+header: authorization = bearer token
+description: Route to get profile detailes
+*/
+
+router.get("/profile/me", async (req, res) => {
+  try {
+    const token = req.headers["authorization"].split(" ")[1];
+    console.log(token);
+
+    // const { id } = jwt.verify(token, process.env.SECRET_JWT);
+    const { id } = verifyJWT(token);
+    console.log(id);
+
+    //get the user id from json token
+    const user = await User.findOne({ _id: id });
+    return res.json({
+      data: {
+        user,
+      },
+      success: true,
+      message: "User profile fetched successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      data: {
+        user: null,
+      },
+      success: false,
+      message: error.message,
+    });
+  }
+});
 
 export default router;

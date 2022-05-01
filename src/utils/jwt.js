@@ -10,3 +10,12 @@ export const signJWT = (payload = {}, expiry = "24h") => {
     return null;
   }
 };
+
+export const verifyJWT = async (token) => {
+  try {
+    const data = await jwt.verify(token, process.env.SECRET_JWT);
+    return data;
+  } catch (error) {
+    return null;
+  }
+};

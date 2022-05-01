@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 
 //import Router
-import userRouter from "./Routes/auth";
+import userRouter from "./Routes/user";
 
 import { connectDB } from "./services/mongoDB/connectDB";
 dotenv.config("./.env");
