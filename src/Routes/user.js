@@ -190,10 +190,10 @@ description: Route to get profile detailes
 router.get("/profile/me", isAuthenticated, async (req, res) => {
   try {
     const token = req.headers["authorization"].split(" ")[1];
-    console.log(token);
+    // console.log(token);
 
     // const { id } = jwt.verify(token, process.env.SECRET_JWT);
-    const { id } = verifyJWT(token);
+    const { id } = await verifyJWT(token);
     console.log(id);
 
     //get the user id from json token

@@ -1,9 +1,8 @@
 import { verifyJWT } from "../../utils";
 
-export const isAuthenticated = (req, res, next) => {
+export const isAuthenticated = async (req, res, next) => {
   const token = req.headers["authorization"].split(" ")[1];
-  const data = verifyJWT(token);
-
+  const data = await verifyJWT(token);
   if (data) {
     req.user = data.id;
     return next();
