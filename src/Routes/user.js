@@ -3,6 +3,9 @@ import bcrypt from "bcryptjs";
 import { validationResult, body } from "express-validator";
 import { User } from "../services/mongoDB/models/User";
 import { signJWT, verifyJWT } from "../utils/index";
+import { isAdmin } from "../services/middlewares/isAdmin";
+import { isAuthenticated } from "../services/middlewares/isAuthenticated";
+
 const router = express.Router();
 
 /*
@@ -148,7 +151,7 @@ query: none
 description: Route to get all user
 */
 
-router.get("/all", async (req, res) => {
+router.get("/all", isAdmin, isAuthenticated, async (req, res) => {
   // !TODO make sure that only the admin can access this route
 
   try {
@@ -184,7 +187,7 @@ header: authorization = bearer token
 description: Route to get profile detailes
 */
 
-router.get("/profile/me", async (req, res) => {
+router.get("/profile/me", isAuthenticated, async (req, res) => {
   try {
     const token = req.headers["authorization"].split(" ")[1];
     console.log(token);

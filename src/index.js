@@ -1,24 +1,21 @@
 import express from "express";
 import dotenv from "dotenv";
-
-//import Router
-import userRouter from "./Routes/user";
-
 import { connectDB } from "./services/mongoDB/connectDB";
 dotenv.config("./.env");
 
+//import Router
+import userRoutes from "./Routes/user";
+import categoryRoutes from "./Routes/category";
+
 const app = express();
 
-//middelware
-//bodyParser
-app.use(express.json());
-
 // console.log(process.env.PORT);
+const PORT = process.env.PORT || 8080;
 
-const PORT = process.env.PORT || 8000;
 connectDB();
 
-// Route
+// ****************** Route -- start *************************
+
 app.get("/", (req, res) => {
   res.send(`Server is deployed at post : ${PORT}`);
 });
@@ -27,7 +24,14 @@ app.get("/getenvs", (req, res) => {
   res.send(process.env);
 });
 
-app.use("/user", userRouter);
+//middelware
+//bodyParser
+app.use(express.json());
+app.use("/user", userRoutes);
+app.use("/category", categoryRoutes);
+
+// ******************* Route -- end **************************
+
 app.listen(PORT, () => {
   console.log(`Server is listen at Port ${PORT}`);
 });
