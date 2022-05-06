@@ -6,6 +6,7 @@ dotenv.config("./.env");
 //import Router
 import userRoutes from "./Routes/user";
 import categoryRoutes from "./Routes/category";
+import productRoutes from "./Routes/product";
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.get("/getenvs", (req, res) => {
 app.use(express.json());
 app.use("/user", userRoutes);
 app.use("/category", categoryRoutes);
+app.use("/product", productRoutes);
 
 // ******************* Route -- end **************************
 

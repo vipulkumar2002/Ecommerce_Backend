@@ -15,8 +15,8 @@ description : Route to add a catagory
 
 router.post(
   "/add",
-  isAdmin,
   isAuthenticated,
+  isAdmin,
   body("name").isLength({ min: 3 }),
   body("description").isLength({ min: 5 }),
   async (req, res) => {
