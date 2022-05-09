@@ -4,7 +4,7 @@ const router = express.Router();
 import { isAuthenticated } from "../services/middlewares/isAuthenticated";
 import { isAdmin } from "../services/middlewares/isAdmin";
 import { body, validationResult } from "express-validator";
-import { Product } from "../services/mongoDB/models/Product";
+import { Product } from "../services/mongoDB/Schema";
 
 /*
 type : POST
@@ -87,5 +87,90 @@ router.post(
     }
   }
 );
+
+/*
+type : GET
+path : product/all
+body : none
+query: none
+description : Route to fetched all Products
+*/
+
+router.get("/all", async (req, res) => {
+  try {
+    const products = await Product.find({}).populate("category");
+    return res.json({
+      data: {
+        products,
+      },
+      success: true,
+      message: "Product Fetched",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      data: {
+        products: [],
+      },
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
+/*
+type : PUT
+path : product/update/:id
+body : none
+query: none
+description : Route to delete a Product
+*/
+
+router.put("update/:id", isAuthenticated, isAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findOneAndUpdate({ _id: id });
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      data: {
+        product: null,
+      },
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
+/*
+type : DETELE
+path : product/:id
+body : none
+query: none
+description : Route to delete a Product
+*/
+
+router.delete("/:id", isAuthenticated, isAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findOneAndDelete({ _id: id });
+    return res.json({
+      data: {
+        product,
+      },
+      success: true,
+      message: "Product deleted",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      data: {
+        product: null,
+      },
+      success: false,
+      message: error.message,
+    });
+  }
+});
 
 export default router;

@@ -7,6 +7,7 @@ dotenv.config("./.env");
 import userRoutes from "./Routes/user";
 import categoryRoutes from "./Routes/category";
 import productRoutes from "./Routes/product";
+import addressRoutes from "./Routes/address";
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use(express.json());
 app.use("/user", userRoutes);
 app.use("/category", categoryRoutes);
 app.use("/product", productRoutes);
+app.use("/address", addressRoutes);
 
 // ******************* Route -- end **************************
 

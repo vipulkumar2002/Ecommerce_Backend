@@ -197,7 +197,7 @@ router.get("/profile/me", isAuthenticated, async (req, res) => {
     console.log(id);
 
     //get the user id from json token
-    const user = await User.findOne({ _id: id });
+    const user = await User.findOne({ _id: id }).populate("addresses");
     return res.json({
       data: {
         user,

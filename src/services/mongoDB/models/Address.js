@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const AddressSchema = new mongoose.Schema(
   {
+    user: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+    },
     houseNumber: {
       type: String,
       required: true,
@@ -9,11 +13,15 @@ const AddressSchema = new mongoose.Schema(
     fullAddress: {
       type: String,
       required: true,
-      minlength: 50,
+      minlength: 5,
       maxlength: 100,
     },
     landmark: {
       type: String,
+      required: true,
+    },
+    pincode: {
+      type: Number,
       required: true,
     },
   },
