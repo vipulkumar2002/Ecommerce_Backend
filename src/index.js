@@ -8,6 +8,7 @@ import userRoutes from "./Routes/user";
 import categoryRoutes from "./Routes/category";
 import productRoutes from "./Routes/product";
 import addressRoutes from "./Routes/address";
+import orderRoutes from "./Routes/order";
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use("/user", userRoutes);
 app.use("/category", categoryRoutes);
 app.use("/product", productRoutes);
 app.use("/address", addressRoutes);
+app.use("/order", orderRoutes);
 
 // ******************* Route -- end **************************
 
