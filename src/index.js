@@ -21,7 +21,7 @@ connectDB();
 // ****************** Route -- start *************************
 
 app.get("/", (req, res) => {
-  res.send(`Server is deployed at post : ${PORT}`);
+  res.send(`Server is deployed at post of action : ${PORT}`);
 });
 
 app.get("/getenvs", (req, res) => {
