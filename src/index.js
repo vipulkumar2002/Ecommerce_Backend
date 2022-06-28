@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 import { connectDB } from "./services/mongoDB/connectDB";
 dotenv.config("./.env");
 
@@ -30,6 +31,7 @@ app.get("/getenvs", (req, res) => {
 //middelware
 //bodyParser
 app.use(express.json());
+app.use(cors());
 app.use("/user", userRoutes);
 app.use("/category", categoryRoutes);
 app.use("/product", productRoutes);

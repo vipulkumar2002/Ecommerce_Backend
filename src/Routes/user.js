@@ -95,7 +95,7 @@ router.post(
       const { email, password } = req.body;
       const user = await User.findOne({ email });
       if (!user) {
-        res.json({
+        return res.json({
           data: {
             token: null,
           },
@@ -106,7 +106,7 @@ router.post(
 
       const isVerified = await bcrypt.compare(password, user.password);
       if (!isVerified) {
-        res.json({
+        return res.json({
           data: {
             token: null,
           },
@@ -126,13 +126,17 @@ router.post(
       return res.json({
         data: {
           token,
+          user: {
+            email: user.email,
+            id: user._id,
+          },
         },
         success: true,
-        message: "User Logged in Successfully ",
+        message: "User Logged in Successfully !!",
       });
     } catch (error) {
       console.log(error);
-      res.json({
+      return res.json({
         data: {
           token: null,
         },
