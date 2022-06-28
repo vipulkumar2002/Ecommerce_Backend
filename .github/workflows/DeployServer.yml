@@ -14,3 +14,17 @@ jobs:
     steps:
       - name: test
         run: echo "hi from github workflow"
+      - name: get repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: add github username
+        run: git config --global user.name "vipulkumar2002"
+      - name: echo
+        run: echo working
+      - name: add github email
+        run: git config --global user.email "vipulkumarpatel2002@gmail.com"
+      - name: add heroku remote
+        run: git remote add heroku https://heroku:8eba7927-3b4f-45f7-a609-491f55fdb393@git.heroku.com/nameless-anchorage-02660.git
+      - name: push to heroku
+        run: git push heroku master --force
